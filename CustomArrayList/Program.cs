@@ -8,12 +8,14 @@ public class Program
         {
             Console.Write(item + "\t");
         }
+
         Console.WriteLine();
         ar.SortFromMax();
         foreach (var item in ar)
         {
             Console.Write(item + "\t");
         }
+
         Console.WriteLine();
         ar.SortFromMin();
         foreach (var item in ar)
