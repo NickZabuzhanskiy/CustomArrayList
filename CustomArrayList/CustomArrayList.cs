@@ -16,11 +16,20 @@ namespace ArrayList
 
         public CustomArrayList(int[] array)
         {
-            _array = array ?? throw new ArgumentNullException("array is null");
+            _array = array ?? throw new NullReferenceException ("array is null");
             _currentCount = array.Length;
         }
 
-        public CustomArrayList(int size) => _array = new int[size];
+        public CustomArrayList(int size)
+        {
+            if (size < 0)
+            {
+                throw new ArgumentException("size is negative");
+            }
+
+            _array = new int[size];
+        }
+
         public int this[int index]
         {
             get
@@ -81,6 +90,7 @@ namespace ArrayList
             {
                 Resize(Capacity + range.Length);
             }
+
             var tempArray = Copy(_array);
             for (int i = index, j = 0; j < range.Length; ++i, ++j)
             {
@@ -91,6 +101,7 @@ namespace ArrayList
             {
                 tempArray[i] = _array[i - range.Length];
             }
+
             _currentCount += range.Length;
             _array = tempArray;
         }
@@ -173,6 +184,7 @@ namespace ArrayList
             {
                 _array[i] = _array[i + 1];
             }
+
             _array[--_currentCount] = default;
         }
 
@@ -191,7 +203,12 @@ namespace ArrayList
         {
             if (index < 0 || index >= _array.Length)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentException("Incorrect index");
+            }
+
+            if (count + index > Length)
+            {
+                throw new ArgumentException("Invalid combination of index and count");
             }
 
             for (int i = index; i < Length - count; i++)
